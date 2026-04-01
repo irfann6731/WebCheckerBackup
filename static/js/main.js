@@ -5,16 +5,67 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Enter') analyzeUrl();
         });
     }
+
+    // Initialize Year
+    const yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const urlInput = document.getElementById('urlInput');
-    if (urlInput) {
-        urlInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') analyzeUrl();
-        });
+let popupResolve = null;
+
+function showQrisPopup() {
+    return new Promise((resolve) => {
+        popupResolve = resolve;
+        const modal = document.getElementById('qrisModal');
+        const content = document.getElementById('qrisContent');
+        const btn = document.getElementById('closeQrisBtn');
+        const countdownEl = document.getElementById('qrisCountdown');
+
+        if (!modal || !content || !btn || !countdownEl) {
+            resolve();
+            return;
+        }
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        
+        // Trigger animation
+        setTimeout(() => {
+            content.classList.add('qris-show-content');
+        }, 10);
+
+        let count = 5;
+        const timer = setInterval(() => {
+            count--;
+            countdownEl.innerText = `(${count})`;
+            if (count <= 0) {
+                clearInterval(timer);
+                countdownEl.innerText = '';
+                btn.disabled = false;
+                btn.classList.remove('bg-slate-100', 'text-slate-400', 'cursor-not-allowed');
+                btn.classList.add('btn-qris-active');
+            }
+        }, 1000);
+
+        sessionStorage.setItem('qrisShown', 'true');
+    });
+}
+
+function closeQrisPopup() {
+    const modal = document.getElementById('qrisModal');
+    const content = document.getElementById('qrisContent');
+    
+    if (modal && content) {
+        content.classList.remove('qris-show-content');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            if (popupResolve) popupResolve();
+        }, 300);
+    } else {
+        if (popupResolve) popupResolve();
     }
-});
+}
 
 async function analyzeUrl() {
     const urlInput = document.getElementById('urlInput');
@@ -41,6 +92,11 @@ async function analyzeUrl() {
             confirmButtonColor: '#7F3FBF'
         });
         return;
+    }
+
+    // QRIS Interstitial (Once per session)
+    if (!sessionStorage.getItem('qrisShown')) {
+        await showQrisPopup();
     }
 
     // UI State: Loading

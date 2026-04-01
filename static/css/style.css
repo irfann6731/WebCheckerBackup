@@ -12,6 +12,31 @@
     animation-delay: 2s;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.qris-show-content {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+}
+
+.btn-qris-active {
+    background-color: #7F3FBF !important;
+    color: white !important;
+    cursor: pointer !important;
+    box-shadow: 0 10px 15px -3px rgba(127, 63, 191, 0.3);
+}
+
+.btn-qris-active:hover {
+    background-color: #6d35a4 !important;
+}
+
 
 html {
     scroll-behavior: smooth;

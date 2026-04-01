@@ -455,6 +455,32 @@
       </div>
     </footer>
 
+    <!-- QRIS Popup Modal -->
+    <div id="qrisModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm fade-in">
+      <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden relative transform transition-all scale-95 opacity-0 duration-300" id="qrisContent">
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold text-slate-800 mb-2">Support WebChecker</h3>
+          <p class="text-slate-500 text-sm mb-6">Suka dengan tools ini? Bantu kami tetap online dengan donasi seikhlasnya via QRIS.</p>
+          
+          <div class="relative group aspect-square max-w-[300px] mx-auto mb-6 bg-slate-50 rounded-2xl border-2 border-slate-100 p-2 overflow-hidden">
+            <img src="{{ url_for('static', filename='img/QRIS.webp') }}" alt="QRIS Donasi" class="w-full h-full object-contain rounded-xl" />
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <button 
+              id="closeQrisBtn" 
+              disabled
+              onclick="closeQrisPopup()"
+              class="w-full py-3 px-6 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-slate-100 text-slate-400 cursor-not-allowed"
+            >
+              <span>Tutup <span id="qrisCountdown">(5)</span></span>
+            </button>
+            <p class="text-[10px] text-slate-400">Tombol tutup akan aktif setelah countdown selesai.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- SweetAlert2 Library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
